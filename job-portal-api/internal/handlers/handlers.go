@@ -30,7 +30,7 @@ type UserHandler interface {
 	ViewAllJobs(c *gin.Context)
 	ViewJobByCompid(c *gin.Context)
 	AddJob(c *gin.Context)
-	//ProcessedJobAppl(c *gin.Context)
+	ProcessedJobAppl(c *gin.Context)
 }
 
 func NewHandler(s services.UserService) (UserHandler, error) {

@@ -26,6 +26,7 @@ type UserRepo interface {
 	FindJob(ctx context.Context, companyId uint64) ([]models.Job, error)
 	FindAllJobs(ctx context.Context) ([]models.Job, error)
 	ViewJobDetailsBy(ctx context.Context, jobId uint64) (models.Job, error)
+	GetTheJobData(jobid uint) (models.Job, error)
 	AutoMigrate() error
 }
 

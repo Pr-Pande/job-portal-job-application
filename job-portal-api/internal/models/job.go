@@ -5,77 +5,77 @@ import "gorm.io/gorm"
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //for validation purpose
 type NewCompany struct {
-	CompanyName string `json:"Companyname" validate:"required"`
-	Location    string `json:"Location" validate:"required"`
+	CompanyName string `json:"companyName" validate:"required"`
+	Location    string `json:"location" validate:"required"`
 }
 
 type Company struct {
 	gorm.Model
-	CompanyName string `json:"Companyname" gorm:"unique;not null" validate:"required,unique"`
-	Location    string `json:"Location"`
+	CompanyName string `json:"companyName" gorm:"unique;not null" validate:"required,unique"`
+	Location    string `json:"location"`
 }
 
 type NewJob struct {
-	CompanyId      uint   `json:"CompanyId"`
-	Title          string `json:"Title" validate:"required"`
-	MinNP          string `json:"MinNP" validate:"required"`
-	MaxNP          string `json:"MaxNP" validate:"required"`
-	Budget         string `json:"Budget" validate:"required"`
-	JobLocations   []uint `json:"JobLocations" validate:"required"`
-	Technologies   []uint `json:"TechnologyStacks" validate:"required"`
-	WorkModes      []uint `json:"WorkModes" validate:"required"`
-	MinExp         string `json:"MinExp" validate:"required"`
-	MaxExp         string `json:"MaxExp" validate:"required"`
-	Qualifications []uint `json:"Qualifications" validate:"required"`
-	Shifts         []uint `json:"Shifts" validate:"required"`
-	JobTypes       string `json:"JobType" validate:"required"`
-	Desc           string `json:"Desc" validate:"required"`
+	CompanyId      uint   `json:"companyId"`
+	Title          string `json:"title" validate:"required"`
+	MinNP          string `json:"minNP" validate:"required"`
+	MaxNP          string `json:"maxNP" validate:"required"`
+	Budget         string `json:"budget" validate:"required"`
+	JobLocations   []uint `json:"jobLocations" validate:"required"`
+	Technologies   []uint `json:"technologyStacks" validate:"required"`
+	WorkModes      []uint `json:"workModes" validate:"required"`
+	MinExp         string `json:"minExp" validate:"required"`
+	MaxExp         string `json:"maxExp" validate:"required"`
+	Qualifications []uint `json:"qualifications" validate:"required"`
+	Shifts         []uint `json:"shifts" validate:"required"`
+	JobTypes       string `json:"jobType" validate:"required"`
+	Desc           string `json:"desc" validate:"required"`
 }
 
 type JobRespo struct {
-	JobId uint `json:"JobId"`
+	JobId uint `json:"jobId"`
 }
 
 type Job struct {
 	gorm.Model
 	Company        Company         `json:"-" gorm:"ForeignKey:CompanyId"`
-	CompanyId      uint            `json:"CompanyId"`
-	Title          string          `json:"Title"`
-	MinNP          string          `json:"MinNP"`
-	MaxNP          string          `json:"MaxNP"`
-	Budget         string          `json:"Budget"`
+	CompanyId      uint            `json:"companyId"`
+	Title          string          `json:"title"`
+	MinNP          string          `json:"minNP"`
+	MaxNP          string          `json:"maxNP"`
+	Budget         string          `json:"budget"`
 	JobLocations   []Location      `gorm:"many2many:Job_locations;"`
 	Technologies   []Technology    `gorm:"many2many:Job_technologies;"`
 	WorkModes      []WorkMode      `gorm:"many2many:Job_workmode;"`
-	MinExp         string          `json:"MinExp"`
-	MaxExp         string          `json:"MaxExp"`
+	MinExp         string          `json:"minExp"`
+	MaxExp         string          `json:"maxExp"`
 	Qualifications []Qualification `gorm:"many2many:Job_qualifications;"`
 	Shifts         []Shift         `gorm:"many2many:Job_shifts;"`
-	JobTypes       string          `json:"JobType"`
-	Desc           string          `json:"Desc"`
+	JobTypes       string          `json:"jobType"`
+	Desc           string          `json:"desc"`
 }
 
 type Location struct {
 	gorm.Model
-	City string `json:"City" gorm:"unique;not null"`
+	City string `json:"city" gorm:"unique;not null"`
 }
 
 type Technology struct {
 	gorm.Model
-	TechName string `json:"Techname" gorm:"unique;not null"`
+	TechName string `json:"techName" gorm:"unique;not null"`
 }
 
 type WorkMode struct {
 	gorm.Model
-	ModeType string `json:"Modetype" gorm:"unique;not null"`
+	ModeType string `json:"modeType" gorm:"unique;not null"`
 }
 
 type Qualification struct {
 	gorm.Model
-	QualificationReq string `json:"Qualreq" gorm:"unique;not null"`
+	QualificationReq string `json:"qualReq" gorm:"unique;not null"`
 }
 
 type Shift struct {
 	gorm.Model
-	ShiftType string `json:"ShiftType" gorm:"unique;not null"`
+	ShiftType string `json:"shiftType" gorm:"unique;not null"`
 }

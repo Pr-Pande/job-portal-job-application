@@ -48,3 +48,24 @@ func (r *Repo) FindJob(ctx context.Context, companyId uint64) ([]models.Job, err
 	}
 	return jobData, nil
 }
+
+func (r *Repo) GetTheJobData(jobid uint) (models.Job, error) {
+	var jobData models.Job
+
+	// Preload related data using GORM's Preload method
+	result := r.DB.Preload("Company").
+		Preload("JobLocations").
+		Preload("Technologies").
+		Preload("WorkModes").
+		Preload("Qualifications").
+		Preload("Shifts").
+		Where("id = ?", jobid).
+		Find(&jobData)
+
+	if result.Error != nil {
+		log.Info().Err(result.Error).Send()
+		return models.Job{}, result.Error
+	}
+
+	return jobData, nil
+}

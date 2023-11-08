@@ -1,6 +1,6 @@
 package handlers
 
-/* import (
+import (
 	"encoding/json"
 	"job-portal-api/internal/auth"
 	"job-portal-api/internal/middlewares"
@@ -49,4 +49,4 @@ func (h *handler) ProcessedJobAppl(c *gin.Context) {
 
 	c.JSON(http.StatusOK, applicationData)
 
-} */
+}
