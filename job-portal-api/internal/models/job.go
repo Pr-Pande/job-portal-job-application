@@ -16,20 +16,19 @@ type Company struct {
 }
 
 type NewJob struct {
-	CompanyId      uint   `json:"companyId"`
-	Title          string `json:"title" validate:"required"`
-	MinNP          string `json:"minNP" validate:"required"`
-	MaxNP          string `json:"maxNP" validate:"required"`
-	Budget         string `json:"budget" validate:"required"`
-	JobLocations   []uint `json:"jobLocations" validate:"required"`
-	Technologies   []uint `json:"technologyStacks" validate:"required"`
-	WorkModes      []uint `json:"workModes" validate:"required"`
-	MinExp         string `json:"minExp" validate:"required"`
-	MaxExp         string `json:"maxExp" validate:"required"`
-	Qualifications []uint `json:"qualifications" validate:"required"`
-	Shifts         []uint `json:"shifts" validate:"required"`
-	JobTypes       string `json:"jobType" validate:"required"`
-	Desc           string `json:"desc" validate:"required"`
+	CompanyId            uint   `json:"companyId"`
+	Title                string `json:"title" validate:"required"`
+	NoticePeriodInMonths uint   `json:"noticePeriodInMonths" validate:"required"`
+	Budget               string `json:"budget" validate:"required"`
+	JobLocations         []uint `json:"jobLocations" validate:"required"`
+	Technologies         []uint `json:"technologyStacks" validate:"required"`
+	WorkModes            []uint `json:"workModes" validate:"required"`
+	MinExp               uint   `json:"minExp" validate:"required"`
+	MaxExp               uint   `json:"maxExp" validate:"required"`
+	Qualifications       []uint `json:"qualifications" validate:"required"`
+	Shifts               []uint `json:"shifts" validate:"required"`
+	JobTypes             string `json:"jobType" validate:"required"`
+	Desc                 string `json:"desc" validate:"required"`
 }
 
 type JobRespo struct {
@@ -41,14 +40,14 @@ type Job struct {
 	Company        Company         `json:"-" gorm:"ForeignKey:CompanyId"`
 	CompanyId      uint            `json:"companyId"`
 	Title          string          `json:"title"`
-	MinNP          string          `json:"minNP"`
-	MaxNP          string          `json:"maxNP"`
+	MinNPInMonths  uint            `json:"minNPInMonths"`
+	MaxNPInMonths  uint            `json:"maxNPInMonths"`
 	Budget         string          `json:"budget"`
 	JobLocations   []Location      `gorm:"many2many:Job_locations;"`
 	Technologies   []Technology    `gorm:"many2many:Job_technologies;"`
 	WorkModes      []WorkMode      `gorm:"many2many:Job_workmode;"`
-	MinExp         string          `json:"minExp"`
-	MaxExp         string          `json:"maxExp"`
+	MinExp         uint            `json:"minExp"`
+	MaxExp         uint            `json:"maxExp"`
 	Qualifications []Qualification `gorm:"many2many:Job_qualifications;"`
 	Shifts         []Shift         `gorm:"many2many:Job_shifts;"`
 	JobTypes       string          `json:"jobType"`

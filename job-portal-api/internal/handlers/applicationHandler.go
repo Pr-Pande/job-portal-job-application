@@ -38,7 +38,7 @@ func (h *handler) ProcessedJobAppl(c *gin.Context) {
 		return
 	}
 
-	applicationData, err = h.service.ProcessJobApplication(ctx, applicationData)
+	filteredData, err := h.service.ProcessJobApplication(ctx, applicationData)
 	if err != nil {
 		log.Error().Err(err).Str("trace id", traceId)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -47,6 +47,6 @@ func (h *handler) ProcessedJobAppl(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, applicationData)
+	c.JSON(http.StatusOK, filteredData)
 
 }

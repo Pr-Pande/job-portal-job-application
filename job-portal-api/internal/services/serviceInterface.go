@@ -26,7 +26,7 @@ type UserService interface {
 	GetJobData(ctx context.Context, jobId uint64) (models.Job, error)
 	GetAllJobData(ctx context.Context) ([]models.Job, error)
 	GetJobByCompany(ctx context.Context, companyId uint64) ([]models.Job, error)
-	ProcessJobApplication(ctx context.Context, applicationData []models.UserApplication) ([]models.UserApplication, error)
+	ProcessJobApplication(ctx context.Context, applicationData []models.UserApplication) ([]models.ApplRespo, error)
 }
 
 func NewService(userRepo database.UserRepo, a auth.Authentication) (UserService, error) {

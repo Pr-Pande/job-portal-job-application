@@ -11,15 +11,15 @@ import (
 func (s *Service) StoreJob(ctx context.Context, jobData models.NewJob, companyId uint64) (models.JobRespo, error) {
 
 	jDetails := models.Job{
-		CompanyId: uint(companyId),
-		Title:     jobData.Title,
-		MinNP:     jobData.MinNP,
-		MaxNP:     jobData.MaxNP,
-		Budget:    jobData.Budget,
-		MinExp:    jobData.MinExp,
-		MaxExp:    jobData.MaxExp,
-		JobTypes:  jobData.JobTypes,
-		Desc:      jobData.Desc,
+		CompanyId:     uint(companyId),
+		Title:         jobData.Title,
+		MinNPInMonths: jobData.MinNPInMonths,
+		MaxNPInMonths: jobData.MaxNPInMonths,
+		Budget:        jobData.Budget,
+		MinExp:        jobData.MinExp,
+		MaxExp:        jobData.MaxExp,
+		JobTypes:      jobData.JobTypes,
+		Desc:          jobData.Desc,
 	}
 
 	for _, v := range jobData.JobLocations {

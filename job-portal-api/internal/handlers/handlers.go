@@ -73,7 +73,7 @@ func SetupAPI(a auth.Authentication, ser services.UserService) *gin.Engine {
 	r.GET("/api/jobs/:company_id", m.Authenticate(h.ViewJobByCompid))
 	r.GET("/api/jobs", m.Authenticate(h.ViewAllJobs))
 	r.GET("/api/job/:job_Id", m.Authenticate(h.ViewJobByID))
-	//r.POST("/api/job/application", m.Authenticate(h.ProcessedJobAppl))
+	r.POST("/api/job/application", m.Authenticate(h.ProcessedJobAppl))
 
 	return r
 

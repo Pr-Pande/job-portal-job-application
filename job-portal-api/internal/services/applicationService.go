@@ -2,25 +2,109 @@ package services
 
 import (
 	"context"
+	"errors"
 	"job-portal-api/internal/models"
 	"sync"
+
+	"github.com/rs/zerolog/log"
 )
 
-func (s *Service) ProcessJobApplication(ctx context.Context, applicationData []models.UserApplication) ([]models.UserApplication, error) {
+func (s *Service) ProcessJobApplication(ctx context.Context, applicationData []models.UserApplication) ([]models.ApplRespo, error) {
 	var wg = new(sync.WaitGroup)
-	var finalData []models.UserApplication
-	for _, v := range applicationData {
+	var finalData []models.ApplRespo
+	for _, application := range applicationData {
 		wg.Add(1)
-		go func(v models.UserApplication) {
+		go func(appl models.UserApplication) {
 			defer wg.Done()
-			check, v, err := s.compareAndCheck(v)
+			jobData, err := s.UserRepo.GetTheJobData(appl.JobId)  //fetching job data
 			if err != nil {
+				log.Error().Err(err).Interface("Job ID", appl.JobId).Send()
 				return
 			}
-			if check {
-				finalData = append(finalData, v)
+
+			if appl.JobApplication.Experience < jobData.MinExp || appl.JobApplication.Experience > jobData.MaxExp {
+				log.Error().Err(errors.New("experience requirments not met")).Interface("applicant name", appl.Name).Send()
+				return
 			}
-		}(v)
+			if appl.JobApplication.Jobtypes != jobData.JobTypes {
+				log.Error().Err(errors.New("jobtype requirments not met")).Interface("applicant name", appl.Name).Send()
+				return
+			}
+			if appl.JobApplication.MinNPInMonths < jobData.MinNPInMonths || appl.JobApplication.NoticePeriodInMonths > jobData.MaxNPInMonths {
+				log.Error().Err(errors.New("notice period requirments not met")).Interface("applicant name", appl.Name).Send()
+				return
+			}
+			count := 0
+			for _, v := range appl.JobApplication.JobLocations {
+				for _, v1 := range jobData.JobLocations {
+					if v == v1.ID {
+						count++
+					}
+				}
+			}
+			if count == 0 {
+				log.Error().Err(errors.New("location requirments not met")).Interface("applicant name", appl.Name).Send()
+				return
+			}
+
+			count = 0
+			for _, v := range appl.JobApplication.Technologies {
+				for _, v1 := range jobData.Technologies {
+					if v == v1.ID {
+						count++
+					}
+				}
+			}
+			if count < (len(appl.JobApplication.Technologies)/2) {
+				log.Error().Err(errors.New("technology requirments not met")).Interface("applicant name", appl.Name).Send()
+				return
+			}
+
+			count = 0
+			for _, v := range appl.JobApplication.WorkModes {
+				for _, v1 := range jobData.WorkModes {
+					if v == v1.ID {
+						count++
+					}
+				}
+			}
+			if count == 0 {
+				log.Error().Err(errors.New("work mode requirments not met")).Interface("applicant name", appl.Name).Send()
+				return
+			}
+
+			count = 0
+			for _, v := range appl.JobApplication.Qualifications {
+				for _, v1 := range jobData.Qualifications {
+					if v == v1.ID {
+						count++
+					}
+				}
+			}
+			if count == 0 {
+				log.Error().Err(errors.New("qualification requirments not met")).Interface("applicant name", appl.Name).Send()
+				return
+			}
+
+			count = 0
+			for _, v := range appl.JobApplication.Shifts {
+				for _, v1 := range jobData.Shifts {
+					if v == v1.ID {
+						count++
+					}
+				}
+			}
+			if count == 0 {
+				log.Error().Err(errors.New("shift requirments not met")).Interface("applicant name", appl.Name).Send()
+				return
+			}
+			respo := models.ApplRespo{
+				Name:  appl.Name,
+				JobId: appl.JobId,
+			}
+
+			finalData = append(finalData, respo)
+		}(application)
 
 		/* check, v, err := s.compareAndCheck(v)
 
@@ -33,88 +117,4 @@ func (s *Service) ProcessJobApplication(ctx context.Context, applicationData []m
 	}
 	wg.Wait()
 	return finalData, nil
-}
-
-var cacheMap = make(map[uint]models.Job)
-
-func (s *Service) compareAndCheck(applicationDetails models.UserApplication) (bool, models.UserApplication, error) {
-	val, exists := cacheMap[applicationDetails.JobId]
-	if !exists {
-		jobData, err := s.UserRepo.GetTheJobData(applicationDetails.JobId)
-		if err != nil {
-			return false, models.UserApplication{}, err
-		}
-		cacheMap[applicationDetails.JobId] = jobData
-		val = jobData
-	}
-	if applicationDetails.JobApplication.Experience < val.MinExp || applicationDetails.JobApplication.Experience > val.MaxExp {
-		return false, models.UserApplication{}, nil
-	}
-	if applicationDetails.JobApplication.Jobtypes != val.JobTypes {
-		return false, models.UserApplication{}, nil
-	}
-	if applicationDetails.JobApplication.NoticePeriod < val.MinNP || applicationDetails.JobApplication.NoticePeriod > val.MaxNP {
-		return false, models.UserApplication{}, nil
-	}
-	count := 0
-	for _, v := range applicationDetails.JobApplication.JobLocations {
-		for _, v1 := range val.JobLocations {
-			if v == v1.ID {
-				count++
-			}
-		}
-	}
-	if count == 0 {
-		return false, models.UserApplication{}, nil
-	}
-
-	count = 0
-	for _, v := range applicationDetails.JobApplication.Technologies {
-		for _, v1 := range val.Technologies {
-			if v == v1.ID {
-				count++
-			}
-		}
-	}
-	if count == 0 {
-		return false, models.UserApplication{}, nil
-	}
-
-	count = 0
-	for _, v := range applicationDetails.JobApplication.WorkModes {
-		for _, v1 := range val.WorkModes {
-			if v == v1.ID {
-				count++
-			}
-		}
-	}
-	if count == 0 {
-		return false, models.UserApplication{}, nil
-	}
-
-	count = 0
-	for _, v := range applicationDetails.JobApplication.Qualifications {
-		for _, v1 := range val.Qualifications {
-			if v == v1.ID {
-				count++
-			}
-		}
-	}
-	if count == 0 {
-		return false, models.UserApplication{}, nil
-	}
-
-	count = 0
-	for _, v := range applicationDetails.JobApplication.Shifts {
-		for _, v1 := range val.Shifts {
-			if v == v1.ID {
-				count++
-			}
-		}
-	}
-	if count == 0 {
-		return false, models.UserApplication{}, nil
-	}
-
-	return true, applicationDetails, nil
 }

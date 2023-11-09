@@ -8,13 +8,19 @@ type UserApplication struct {
 }
 
 type Application struct {
-	Jobname        string `json:"jobName" validate:"required"`
-	NoticePeriod   string   `json:"noticePeriod" validate:"required"`
-	JobLocations   []uint `json:"location" `
-	Technologies   []uint `json:"technologyStack" `
-	WorkModes      []uint `json:"workModes"`
-	Experience     string   `json:"experience" validate:"required"`
-	Qualifications []uint `json:"qualifications"`
-	Shifts         []uint `json:"shifts"`
-	Jobtypes       string `json:"jobType" validate:"required"`
+	Title                string `json:"title" validate:"required"`
+	MinNPInMonths  uint   `json:"minNPInMonths" validate:"required"`
+	MaxNPInMonths  uint   `json:"maxNPInMonths" validate:"required"`
+	JobLocations         []uint `json:"location" `
+	Technologies         []uint `json:"technologyStacks" `
+	WorkModes            []uint `json:"workModes"`
+	Experience           uint   `json:"experience" validate:"required"`
+	Qualifications       []uint `json:"qualifications"`
+	Shifts               []uint `json:"shifts"`
+	Jobtypes             string `json:"jobType" validate:"required"`
+}
+
+type ApplRespo struct {
+	Name           string      `json:"name"`
+	JobId          uint        `json:"jobId"`
 }
