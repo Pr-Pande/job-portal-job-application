@@ -30,7 +30,7 @@ func (s *Service) ProcessJobApplication(ctx context.Context, applicationData []m
 				log.Error().Err(errors.New("jobtype requirments not met")).Interface("applicant name", appl.Name).Send()
 				return
 			}
-			if appl.JobApplication.MinNPInMonths < jobData.MinNPInMonths || appl.JobApplication.NoticePeriodInMonths > jobData.MaxNPInMonths {
+			if appl.JobApplication.NoticePeriodInMonths > jobData.MaxNPInMonths {
 				log.Error().Err(errors.New("notice period requirments not met")).Interface("applicant name", appl.Name).Send()
 				return
 			}

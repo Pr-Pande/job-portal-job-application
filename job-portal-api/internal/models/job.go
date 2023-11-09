@@ -16,19 +16,20 @@ type Company struct {
 }
 
 type NewJob struct {
-	CompanyId            uint   `json:"companyId"`
-	Title                string `json:"title" validate:"required"`
-	NoticePeriodInMonths uint   `json:"noticePeriodInMonths" validate:"required"`
-	Budget               string `json:"budget" validate:"required"`
-	JobLocations         []uint `json:"jobLocations" validate:"required"`
-	Technologies         []uint `json:"technologyStacks" validate:"required"`
-	WorkModes            []uint `json:"workModes" validate:"required"`
-	MinExp               uint   `json:"minExp" validate:"required"`
-	MaxExp               uint   `json:"maxExp" validate:"required"`
-	Qualifications       []uint `json:"qualifications" validate:"required"`
-	Shifts               []uint `json:"shifts" validate:"required"`
-	JobTypes             string `json:"jobType" validate:"required"`
-	Desc                 string `json:"desc" validate:"required"`
+	CompanyId      uint   `json:"companyId"`
+	Title          string `json:"title" validate:"required"`
+	MinNPInMonths  uint   `json:"minNPInMonths" validate:"required"`
+	MaxNPInMonths  uint   `json:"maxNPInMonths" validate:"required"`
+	Budget         string `json:"budget" validate:"required"`
+	JobLocations   []uint `json:"jobLocations" validate:"required"`
+	Technologies   []uint `json:"technologyStacks" validate:"required"`
+	WorkModes      []uint `json:"workModes" validate:"required"`
+	MinExp         uint   `json:"minExp" validate:"required"`
+	MaxExp         uint   `json:"maxExp" validate:"required"`
+	Qualifications []uint `json:"qualifications" validate:"required"`
+	Shifts         []uint `json:"shifts" validate:"required"`
+	JobTypes       string `json:"jobType" validate:"required"`
+	Desc           string `json:"desc" validate:"required"`
 }
 
 type JobRespo struct {

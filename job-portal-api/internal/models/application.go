@@ -9,8 +9,7 @@ type UserApplication struct {
 
 type Application struct {
 	Title                string `json:"title" validate:"required"`
-	MinNPInMonths  uint   `json:"minNPInMonths" validate:"required"`
-	MaxNPInMonths  uint   `json:"maxNPInMonths" validate:"required"`
+	NoticePeriodInMonths uint   `json:"noticePeriodInMonths" validate:"required"`
 	JobLocations         []uint `json:"location" `
 	Technologies         []uint `json:"technologyStacks" `
 	WorkModes            []uint `json:"workModes"`
@@ -21,6 +20,6 @@ type Application struct {
 }
 
 type ApplRespo struct {
-	Name           string      `json:"name"`
-	JobId          uint        `json:"jobId"`
+	Name  string `json:"name"`
+	JobId uint   `json:"jobId"`
 }
