@@ -12,7 +12,7 @@ type Repo struct {
 	DB *gorm.DB
 }
 
-//go:generate mockgen -source=db.go -destination=db_mock.go -package=database
+//go:generate mockgen -source=db.go -destination=mockFiles/db_mock.go -package=database
 
 type UserRepo interface {
 	CreateUser(ctx context.Context, userData models.User) (models.User, error)

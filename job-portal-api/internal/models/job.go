@@ -16,7 +16,6 @@ type Company struct {
 }
 
 type NewJob struct {
-	CompanyId      uint   `json:"companyId"`
 	Title          string `json:"title" validate:"required"`
 	MinNPInMonths  uint   `json:"minNPInMonths" validate:"required"`
 	MaxNPInMonths  uint   `json:"maxNPInMonths" validate:"required"`
