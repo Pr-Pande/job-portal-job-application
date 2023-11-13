@@ -8,7 +8,7 @@ import (
 	"job-portal-api/internal/models"
 )
 
-//go:generate mockgen -source serviceInterface.go -destination mockmodels/serviceInterface_mock.go -package mockmodels
+//go:generate mockgen -source serviceInterface.go -destination mockFile/serviceInterface_mock.go -package services
 type Service struct {
 	UserRepo database.UserRepo
 	auth     auth.Authentication

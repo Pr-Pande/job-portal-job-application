@@ -2,7 +2,7 @@ package services
 
 import (
 	"context"
-	"errors"
+	
 	"job-portal-api/internal/auth"
 	database "job-portal-api/internal/database/mockFiles"
 	"job-portal-api/internal/models"

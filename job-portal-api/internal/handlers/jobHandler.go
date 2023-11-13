@@ -74,7 +74,7 @@ func (h *handler) ViewJobByID(c *gin.Context) {
 	traceId, ok := ctx.Value(middlewares.TraceIdKey).(string)
 	if !ok {
 		log.Error().Msg("traceId missing from context")
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"msg": http.StatusText(http.StatusInternalServerError)})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
@@ -83,10 +83,10 @@ func (h *handler) ViewJobByID(c *gin.Context) {
 	if err != nil {
 
 		log.Print("conversion string to int error", err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"msg": "error found at conversion.."})
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": http.StatusText(http.StatusBadRequest)})
 		return
-
 	}
+	
 	val, err := h.service.GetJobData(ctx, jobid)
 	if err != nil {
 		if err != nil {
