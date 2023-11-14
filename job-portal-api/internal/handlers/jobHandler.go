@@ -19,17 +19,17 @@ func (h *handler) AddJob(c *gin.Context) {
 	if !ok {
 		// If the traceId isn't found in the request, log an error and return
 		log.Error().Msg("traceId missing from context")
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"msg": http.StatusText(http.StatusInternalServerError)})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
 	var nJob models.NewJob
-	// Attempt to decode JSON from the request body into the NewUser variable
+	// Attempt to decode JSON from the request body into the NewJob variable
 	err := json.NewDecoder(c.Request.Body).Decode(&nJob)
 	if err != nil {
 		// If there is an error in decoding, log the error and return
 		log.Error().Err(err).Str("Trace Id", traceId)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"msg": http.StatusText(http.StatusInternalServerError)})
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": http.StatusText(http.StatusBadRequest)})
 		return
 	}
 	//for validation
@@ -39,7 +39,7 @@ func (h *handler) AddJob(c *gin.Context) {
 	if err != nil {
 		// If validation fails, log the error and return
 		log.Error().Err(err).Str("Trace Id", traceId).Send()
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"msg": "please provide Name and Location"})
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": "please provide required field data"})
 		return
 	}
 	stringCmpnyId := c.Param("company_id")
@@ -47,7 +47,7 @@ func (h *handler) AddJob(c *gin.Context) {
 	if err != nil {
 
 		log.Print("conversion string to int error", err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"msg": "error found at conversion.."})
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "error found at conversion"})
 		return
 
 	}
@@ -57,7 +57,7 @@ func (h *handler) AddJob(c *gin.Context) {
 
 	if err != nil {
 		log.Error().Err(err).Str("Trace Id", traceId).Msg("job table creation problem")
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"msg": "job table creation failed"})
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "job table creation failed"})
 		return
 	}
 	// If everything goes right, respond with the created user
@@ -92,7 +92,7 @@ func (h *handler) ViewJobByID(c *gin.Context) {
 		if err != nil {
 			log.Error().Err(err).Str("Trace Id", traceId).Msg("not able to hit the database")
 			log.Print("company data not found in database %w", err)
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"msg": "company record not found"})
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "Test service error"})
 			return
 		}
 
