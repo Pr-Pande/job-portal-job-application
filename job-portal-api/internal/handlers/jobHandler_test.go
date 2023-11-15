@@ -141,32 +141,17 @@ func Test_handler_AddJob(t *testing.T) {
 				httpRequest, _ := http.NewRequest(http.MethodGet, "http://test.com:8080", strings.NewReader(`{
 					"title" : "senior web developer",
 					"minNPInMonths" : 3,
-					"maxNPInMonths" : 8,
+					"maxNPInMonths" : 5,
 					"budget" : "$50000"
-					"jobLocations" : [
-						1,
-						2
-						],
-					"technologyStacks":[
-						1,
-						2
-					],
-					"workModes":[
-						1,
-						2
-					],
+					"jobLocations" : [1, 2],
+					"technologyStacks":[1, 2],
+					"workModes":[1, 2],
 					"minExp": 1,
 					"maxExp": 5,
-					"qualifications": [
-						1,
-						2
-					],
-					"shifts": [
-						1,
-						2
-					],
+					"qualifications": [1, 2],
+					"shifts": [1, 2],
 					"jobType": "Full-time",
-					"desc": "Web designers primarily focus on the visual and user experience aspects of web development. They create mockups, wireframes, and prototypes to communicate design concepts, working closely with web developers to implement designs and maintain a consistent user interface."
+					"desc": "Web designers primarily focus on the visual and user experience aspects of web development."
 				}`))
 				ctx := httpRequest.Context()
 				ctx = context.WithValue(ctx, middlewares.TraceIdKey, "123")
@@ -208,7 +193,7 @@ func Test_handler_AddJob(t *testing.T) {
 				validPayload := `{
 					"title": "Software Engineer",
 					"minNPInMonths": 3,
-					"maxNPInMonths": 12,
+					"maxNPInMonths": 8,
 					"budget": "$80000",
 					"jobLocations": [1, 2],
 					"technologyStacks": [1, 2],
@@ -242,7 +227,7 @@ func Test_handler_AddJob(t *testing.T) {
 				validPayload := `{
 					"title": "Software Engineer",
 					"minNPInMonths": 3,
-					"maxNPInMonths": 12,
+					"maxNPInMonths": 8,
 					"budget": "$80000",
 					"jobLocations": [1, 2],
 					"technologyStacks": [1, 2],
@@ -279,7 +264,7 @@ func Test_handler_AddJob(t *testing.T) {
 				validPayload := `{
 					"title": "Software Engineer",
 					"minNPInMonths": 3,
-					"maxNPInMonths": 12,
+					"maxNPInMonths": 8,
 					"budget": "$80000",
 					"jobLocations": [1, 2],
 					"technologyStacks": [1, 2],

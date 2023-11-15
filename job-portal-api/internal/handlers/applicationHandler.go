@@ -34,7 +34,7 @@ func (h *handler) ProcessedJobAppl(c *gin.Context) {
 	err := json.NewDecoder(c.Request.Body).Decode(&applicationData)
 	if err != nil {
 		log.Error().Err(err).Str("Trace Id", traceId)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"msg": http.StatusText(http.StatusInternalServerError)})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "please provide valid details"})
 		return
 	}
 
@@ -42,7 +42,7 @@ func (h *handler) ProcessedJobAppl(c *gin.Context) {
 	if err != nil {
 		log.Error().Err(err).Str("trace id", traceId)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": "processing job application failed",
 		})
 		return
 	}
