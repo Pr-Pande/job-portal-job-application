@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"job-portal-api/config"
 	"job-portal-api/internal/auth"
 	"job-portal-api/internal/database"
 	"job-portal-api/internal/handlers"
@@ -27,8 +28,14 @@ func main() {
 }
 
 func startApp() error {
+	cfg, err := config.GetConfig()
+	if err != nil {
+		return fmt.Errorf("failed to get configuration: %w", err)
+	}
+
+	// Use the 'config' variable as needed
 	log.Info().Msg("main : Started : Initializing authentication support")
-	privatePEM, err := os.ReadFile("private.pem")
+	privatePEM, err := os.ReadFile(cfg.AuthConfig.PrivateKeyPath)
 	if err != nil {
 		return fmt.Errorf("reading auth private key %w", err)
 	}
@@ -37,7 +44,7 @@ func startApp() error {
 		return fmt.Errorf("parsing auth private key %w", err)
 	}
 
-	publicPEM, err := os.ReadFile("pubkey.pem")
+	publicPEM, err := os.ReadFile(cfg.AuthConfig.PublicKeyPath)
 	if err != nil {
 		return fmt.Errorf("reading auth public key %w", err)
 	}
@@ -55,7 +62,8 @@ func startApp() error {
 	// =========================================================================
 	// Start Database
 	log.Info().Msg("main : Started : Initializing db support")
-	db, err := database.Open()
+	dbConfig := cfg.DBConfig
+	db, err := database.Open(dbConfig)
 	if err != nil {
 		return fmt.Errorf("connecting to db %w", err)
 	}
@@ -77,7 +85,7 @@ func startApp() error {
 	if err != nil {
 		return err
 	}
-	
+
 	err = repos.AutoMigrate()
 	if err != nil {
 		return err
@@ -90,7 +98,7 @@ func startApp() error {
 
 	// Initialize http service
 	api := http.Server{
-		Addr:         ":8081",
+		Addr:         fmt.Sprintf(":%s", cfg.AppConfig.Port),
 		ReadTimeout:  8000 * time.Second,
 		WriteTimeout: 800 * time.Second,
 		IdleTimeout:  800 * time.Second,
