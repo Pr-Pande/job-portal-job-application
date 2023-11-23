@@ -1,0 +1,26 @@
+version: "3"
+ 
+services:
+  job-portal:
+    container_name: job-portal
+    image: "job-portal"
+    ports:
+      - "8080:8081"
+    build: .
+    #env_file:
+      # - .env
+      # - .auth.env
+    depends_on:
+      - postgres
+    restart: always
+  postgres:
+    container_name: postgres
+    image: postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - .db.env
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=postgres2

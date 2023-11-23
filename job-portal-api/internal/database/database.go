@@ -1,12 +1,14 @@
 package database
 
 import (
+	"os"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func Open() (*gorm.DB, error) {
-	dsn := "host=localhost user=postgres password=PR91ag04 dbname=jportal port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+	dsn := os.Getenv("DB_DSN")
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, err
