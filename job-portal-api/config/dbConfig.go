@@ -7,5 +7,5 @@ type DBConfig struct {
 	DBName   string `env:"POSTGRES_DBNAME,required=true"`
 	Port     string `env:"POSTGRES_PORT,default=5432"`
 	SSLMode  string `env:"POSTGRES_SSL_MODE,default=false"`
-	TimeZone     string `env:"POSTGRES_TIMEZONE,default=Asia/Shanghai"`
+	TimeZone string `env:"POSTGRES_TIMEZONE,default=Asia/Shanghai"`
 }

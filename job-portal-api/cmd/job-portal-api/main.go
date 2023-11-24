@@ -35,19 +35,19 @@ func startApp() error {
 
 	// Use the 'config' variable as needed
 	log.Info().Msg("main : Started : Initializing authentication support")
-	privatePEM, err := os.ReadFile(cfg.AuthConfig.PrivateKeyPath)
-	if err != nil {
+	privatePEM := []byte(cfg.AuthConfig.PrivateKeyPath)
+	/* if err != nil {
 		return fmt.Errorf("reading auth private key %w", err)
-	}
+	} */
 	privateKey, err := jwt.ParseRSAPrivateKeyFromPEM(privatePEM)
 	if err != nil {
 		return fmt.Errorf("parsing auth private key %w", err)
 	}
 
-	publicPEM, err := os.ReadFile(cfg.AuthConfig.PublicKeyPath)
-	if err != nil {
+	publicPEM := []byte(cfg.AuthConfig.PublicKeyPath)
+	/* if err != nil {
 		return fmt.Errorf("reading auth public key %w", err)
-	}
+	} */
 
 	publicKey, err := jwt.ParseRSAPublicKeyFromPEM(publicPEM)
 	if err != nil {

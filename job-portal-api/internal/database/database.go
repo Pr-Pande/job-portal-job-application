@@ -9,8 +9,7 @@ import (
 )
 
 func Open(config config.DBConfig) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",
-		config.Host, config.UserName, config.Password, config.DBName, config.Port, config.SSLMode, config.TimeZone)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s", config.Host, config.UserName, config.Password, config.DBName, config.Port, config.SSLMode, config.TimeZone)
 		
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
